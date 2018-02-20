@@ -1,36 +1,19 @@
 /* SudokuSolver
  * Description: Solves a Sudoku puzzle
  */
-
+package models;
 import java.util.*;
 
-public class SudokuSolver{
 
-	public static int[][] testBoard1 = {{3, 0, 0, 4, 0, 2, 1, 0, 8},
-				    {0, 0, 0, 0, 0, 5, 4, 7, 0},
-				    {0, 0, 5 ,0 ,0 ,0 ,0 ,0 ,0},
-				    {0, 0, 9, 2, 5, 0, 0, 0, 7},
-				    {0, 0, 0, 9, 0, 4, 0, 0, 0},
-				    {7, 0, 0, 0, 1, 3, 9, 0, 0},
-				    {0, 0, 0, 0, 0, 0, 7, 0, 0},
-				    {0, 4, 1, 5, 0, 0, 0, 0, 0},
-				    {8, 0, 7, 6, 0, 1, 0, 0, 5}};
-	
-	public static void main(String[] args){
-		Cell[][] board = new Cell[9][9];
-		setupBoard(testBoard1, board);
-		printBoard(board);
-		
-		board = solveBoard(board);
-		printBoard(board);
-		
-		if(!isSolved(board))
-			System.out.println("Board is not solved. Something went horribly wrong.");
-		
+public class SudokuSolver{
+	public Cell[][] board;
+	public SudokuSolver(int[][] testBoard){
+		board = new Cell[9][9];
+		setupBoard(testBoard, board);
 	}	
 	
 	//populates thisBoard from testBoard representation where 0 represents a blank cell
-	public static void setupBoard(int[][] testBoard, Cell[][] thisBoard){
+	public void setupBoard(int[][] testBoard, Cell[][] thisBoard){
 		
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
@@ -49,7 +32,7 @@ public class SudokuSolver{
 	}
 	
 	//prints the board
-	public static void printBoard(Cell[][] thisBoard){
+	public void printBoard(Cell[][] thisBoard){
 		//copyBoard(thisBoard, thisBoard);
 		for(int i = 0; i < 9; i++){
 			if(i % 3 == 0)
@@ -66,7 +49,7 @@ public class SudokuSolver{
 	}
 
 	//solves passed in board and returns the solved board
-	public static Cell[][] solveBoard(Cell[][] thisBoard){
+	public Cell[][] solveBoard(Cell[][] thisBoard){
 		Cell[][] deepBoard = new Cell[9][9];
 		copyBoard(thisBoard, deepBoard); //need to deep copy the board at the top of the method so that the recursion works
 		
@@ -102,7 +85,7 @@ public class SudokuSolver{
 	}
 
 	//deep copies the src board to the dest board
-	private static void copyBoard(Cell[][] src, Cell[][] dest){
+	public void copyBoard(Cell[][] src, Cell[][] dest){
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
 				dest[i][j] = new Cell(src[i][j]);
@@ -111,7 +94,7 @@ public class SudokuSolver{
 	}
 
 	//returns cell with the lowest amount of possible values. Exits program if there are no blank cells
-	private static Cell getLowestPossibleCell(Cell[][] thisBoard){
+	public Cell getLowestPossibleCell(Cell[][] thisBoard){
 		Cell lowest = new Cell();
 		lowest.x = -1;
 		for(int i = 0; i < 9; i++){
@@ -129,7 +112,7 @@ public class SudokuSolver{
 	}
 
 	//checks if board is solved, returns true if so, false otherwise
-	private static boolean isSolved(Cell[][] thisBoard){
+	public boolean isSolved(Cell[][] thisBoard){
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
 				if(thisBoard[i][j].solved() == false)
@@ -140,7 +123,7 @@ public class SudokuSolver{
 	}
 
 	//checks if the board is valid, meaning there are no duplicate neighbors. Ignores blank cells
-	private static boolean checkValid(Cell[][] thisBoard){
+	public boolean checkValid(Cell[][] thisBoard){
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
 				if(checkValidCell(thisBoard, thisBoard[i][j]) == false){
@@ -153,7 +136,7 @@ public class SudokuSolver{
 	}
 
 	//checks whether the given cell is valid, ignores blank cells
-	private static boolean checkValidCell(Cell[][] thisBoard, Cell c){
+	public boolean checkValidCell(Cell[][] thisBoard, Cell c){
 		
 		//check that cell still has a possible value
 		if(c.possibleValues.size() == 0)
@@ -182,7 +165,7 @@ public class SudokuSolver{
 	}
 
 	//updates the board using deduction, returns the number of changes (possibleValues that were able to be removed from cells)
-	private static int updateBoard(Cell[][] thisBoard){
+	public int updateBoard(Cell[][] thisBoard){
 		int changed = 0;
 		for(int i = 0; i < 9; i++){
 			for(int j = 0; j < 9; j++){
@@ -196,7 +179,7 @@ public class SudokuSolver{
 	}
 
 	//upates a specific cell using deduction by looking at all neighbors, returns number of changes
-	private static int updateValues(Cell[][] thisBoard, Cell c){
+	public int updateValues(Cell[][] thisBoard, Cell c){
 		int changed = 0;
 		//check rows and cols
 		for(int i = 0; i < 9; i++){
@@ -230,7 +213,7 @@ public class SudokuSolver{
 	}
 	
 	//checks to see if a possibility of Cell c is not shared by any neighbors, returns the value if found, otherwise returns 0
-	private static int findUniqueValues(Cell[][] thisBoard, Cell c){
+	public int findUniqueValues(Cell[][] thisBoard, Cell c){
 		int offSetX = c.x / 3 * 3;
 		int offSetY = c.y / 3 * 3;
 		boolean isUnique = true;

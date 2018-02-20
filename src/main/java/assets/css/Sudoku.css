@@ -1,0 +1,43 @@
+h1{
+    text-align:center;
+    font-size:75px;
+}
+table{
+    width:500px;
+    height:500px;
+    margin:auto;
+    border: 4px solid black;
+    padding:0;
+}
+tr{
+    margin:0;
+    padding:0;
+}
+td{
+    text-align:center;
+    width:55px;
+    height:55px;
+    font-size:20px;
+    margin:0;
+    padding:0;
+}
+#solve {
+  text-align:center;
+  background: #3498db;
+  border:1px solid black;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 9px 20px 10px 20px;
+  text-decoration: none;
+  margin:auto;
+  display:flex;
+  justify-content:center;
+  margin-top:20px;
+}
+
+#solve:hover {
+  background: #3cb0fd;
+  text-decoration: none;
+  cursor: hand;
+}

@@ -1,0 +1,195 @@
+<html>
+<h1><pre class="title">S U D O K U    S O L V E R</pre></h1>
+
+<link href="/assets/css/Sudoku.css" rel="stylesheet">
+<script type="text/javascript" src="/assets/webjars/jquery/2.1.3/jquery.js"></script>
+
+<body>
+
+    <table id="htmlBoard">
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table>
+    <button id="solve">Solve</button>
+
+</body>
+<script>
+
+var board;
+styleBoard();
+
+function styleBoard(){
+ var table = document.getElementById("htmlBoard");
+    for(var i = 0, row; row = table.rows[i]; i++){
+        for(var j = 0, col; col = row.cells[j]; j++){
+            col.style.borderTop = "1px solid black";
+            col.style.borderLeft = "1px solid black";
+            if(j % 3 == 0 && j != 0)
+                col.style.borderLeft = "4px solid black";
+            if(i % 3 == 0 && i != 0)
+                col.style.borderTop = "4px solid black";
+        }
+    }
+ }
+
+$("td").click(function(){
+    this.style.backgroundColor = "rgba(233, 100, 50, 0.2)";
+    $("body").one('keydown', (event)=> {
+        const keyName = event.key;
+        if((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 97 && event.keyCode <= 105)){
+            this.innerHTML = keyName;
+        }
+        this.style.backgroundColor = "white";
+
+    });
+
+});
+
+function toArray(table){
+    var tempBoard = [];
+      for(var i = 0, row; row = table.rows[i]; i++){
+        tempBoard[i] = [];
+        for(var j = 0, col; col = row.cells[j]; j++){
+            if(col.innerHTML == "")
+                tempBoard[i][j] = 0;
+            else
+                tempBoard[i][j] = parseInt(col.innerHTML);
+         }
+       }
+    return tempBoard;
+}
+
+
+$("#solve").click(function(){
+
+     $.ajax({
+        type: "POST",
+        url: "/solveBoard/",
+        data: JSON.stringify(toArray(document.getElementById("htmlBoard"))),
+        success: function(data, status){console.log("Data: " + data + "\nStatus: " + status);
+        board = data;
+        display(data);},
+        contentType:"application/json; charset=utf-8",
+        dataType:"json",
+    });
+    /*
+    $.getJSON("http://localhost:8080/solveBoard", function(data){
+        display(data);
+        board = data;
+
+    });*/
+});
+
+function display(solver){
+    //$('#htmlBoard').html("");
+    var table = document.getElementById("htmlBoard");
+    for(var i = 0, row; row = table.rows[i]; i++){
+        for(var j = 0, col; col = row.cells[j]; j++){
+            col.innerHTML = solver.board[i][j].value;
+        }
+    }
+}
+
+</script>
+
+
+
+</body>
+</html>
