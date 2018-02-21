@@ -121,6 +121,7 @@
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
+							<goal>ninja:run</goal>
                         </goals>
                         <configuration>
                             <transformers>
