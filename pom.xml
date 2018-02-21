@@ -90,6 +90,15 @@
                 <groupId>org.ninjaframework</groupId>
                 <artifactId>ninja-maven-plugin</artifactId>
                 <version>${ninja.version}</version>
+				<executions>
+					<execution>
+						<id>ninja-run</id>
+						<phase>test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -121,7 +130,6 @@
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
-							<goal>ninja:run</goal>
                         </goals>
                         <configuration>
                             <transformers>
