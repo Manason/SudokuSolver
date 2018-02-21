@@ -8,7 +8,7 @@
     <!-- replace "jar" with "war" and -->
     <!-- comment ninja-standalone dependency and  -->
     <!-- uncomment the dependency for ninja-servlet -->
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
     <groupId>Manason</groupId>
     <version>1.0-SNAPSHOT</version>
 
